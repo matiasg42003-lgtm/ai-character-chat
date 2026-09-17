@@ -1,3 +1,4 @@
+import { inicializarChat } from "./chat.js";
 const app = document.querySelector("#app");
 
 // =========================
@@ -5,7 +6,7 @@ const app = document.querySelector("#app");
 // =========================
 
 function renderHome() {
-    app.innerHTML = `
+  app.innerHTML = `
     <section>
       <h2>Bienvenido al Joker AI Chat</h2>
       <p>
@@ -21,20 +22,36 @@ function renderHome() {
 }
 
 function renderChat() {
-    app.innerHTML = `
-    <section>
-      <h2>Chat con Joker</h2>
-      <p>Aquí estará nuestro chat.</p>
+  app.innerHTML = `
+    <section class="chat-view">
 
-      <a href="/about" data-link>
-        Sobre el proyecto
-      </a>
+      <h2>Chat con Joker</h2>
+
+      <section id="chat"></section>
+
+      <form id="form-chat">
+
+        <input
+          type="text"
+          id="mensaje-input"
+          placeholder="Escribe un mensaje..."
+          autocomplete="off"
+        >
+
+        <button type="submit">
+          Enviar
+        </button>
+
+      </form>
+
     </section>
   `;
+
+  inicializarChat();
 }
 
 function renderAbout() {
-    app.innerHTML = `
+  app.innerHTML = `
     <section>
       <h2>Sobre el proyecto</h2>
       <p>
@@ -54,17 +71,17 @@ function renderAbout() {
 // =========================
 
 function router() {
-    const path = window.location.pathname;
+  const path = window.location.pathname;
 
-    if (path === "/home" || path === "/") {
-        renderHome();
-    } else if (path === "/chat") {
-        renderChat();
-    } else if (path === "/about") {
-        renderAbout();
-    } else {
-        renderHome();
-    }
+  if (path === "/home" || path === "/") {
+    renderHome();
+  } else if (path === "/chat") {
+    renderChat();
+  } else if (path === "/about") {
+    renderAbout();
+  } else {
+    renderHome();
+  }
 }
 
 // =========================
@@ -72,17 +89,17 @@ function router() {
 // =========================
 
 document.addEventListener("click", (event) => {
-    const link = event.target.closest("[data-link]");
+  const link = event.target.closest("[data-link]");
 
-    if (!link) return;
+  if (!link) return;
 
-    event.preventDefault();
+  event.preventDefault();
 
-    const path = link.getAttribute("href");
+  const path = link.getAttribute("href");
 
-    history.pushState({}, "", path);
+  history.pushState({}, "", path);
 
-    router();
+  router();
 });
 
 // =========================
