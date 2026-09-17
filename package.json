@@ -1,0 +1,13 @@
+{
+    "name": "chat-joker",
+    "version": "1.0.0",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "test": "vitest"
+    },
+    "dependencies": {},
+    "devDependencies": {
+        "vitest": "^3.2.4"
+    }
+}
