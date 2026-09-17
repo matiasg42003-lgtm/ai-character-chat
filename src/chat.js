@@ -87,7 +87,11 @@ async function consultarGemini() {
     });
 
     if (!response.ok) {
-        throw new Error("Error al comunicarse con Gemini");
+        const error = new Error("Error al comunicarse con Gemini");
+
+        error.status = response.status;
+
+        throw error;
     }
 
     const data = await response.json();
@@ -137,17 +141,23 @@ function inicializarChat() {
             agregarMensaje("personaje", respuesta);
 
             renderizarMensajes(contenedor);
+
         } catch (error) {
             quitarEscribiendo();
 
             console.error(error);
 
-            agregarMensaje(
-                "personaje",
-                "Algo salió mal... intenta de nuevo."
-            );
+            let mensajeError = "Algo salió mal... intenta de nuevo.";
+
+            if (error.status === 503) {
+                mensajeError =
+                    "El Joker está demasiado ocupado ahora mismo. Intenta nuevamente en unos segundos.";
+            }
+
+            agregarMensaje("personaje", mensajeError);
 
             renderizarMensajes(contenedor);
+
         } finally {
             boton.disabled = false;
         }

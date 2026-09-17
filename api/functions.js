@@ -66,7 +66,9 @@ export default async function handler(req, res) {
     } catch (error) {
         console.error(error);
 
-        return res.status(500).json({
+        const status = error.status || 500;
+
+        return res.status(status).json({
             error: "Error al comunicarse con Gemini"
         });
     }
