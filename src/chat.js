@@ -38,18 +38,61 @@ function renderizarMensajes(contenedor) {
 }
 
 // =========================
-// Respuesta temporal del Joker
+// Mostrar estado de carga
 // =========================
 
-function responderJoker(contenedor) {
-    setTimeout(() => {
-        agregarMensaje(
-            "personaje",
-            "¿Eso es todo lo que tienes para decirme? Ja... interesante."
-        );
+function mostrarEscribiendo(contenedor) {
+    const div = document.createElement("div");
 
-        renderizarMensajes(contenedor);
-    }, 700);
+    div.classList.add("mensaje", "personaje");
+    div.id = "escribiendo";
+
+    div.innerHTML = `
+    <p>Joker está escribiendo...</p>
+  `;
+
+    contenedor.appendChild(div);
+
+    contenedor.scrollTop = contenedor.scrollHeight;
+}
+
+// =========================
+// Quitar estado de carga
+// =========================
+
+function quitarEscribiendo() {
+    const escribiendo = document.querySelector("#escribiendo");
+
+    if (escribiendo) {
+        escribiendo.remove();
+    }
+}
+
+// =========================
+// Consultar Gemini
+// =========================
+
+async function consultarGemini() {
+    const response = await fetch("/api/functions", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            messages: mensajes.map((mensaje) => ({
+                role: mensaje.remitente === "usuario" ? "user" : "model",
+                content: mensaje.contenido
+            }))
+        })
+    });
+
+    if (!response.ok) {
+        throw new Error("Error al comunicarse con Gemini");
+    }
+
+    const data = await response.json();
+
+    return data.message;
 }
 
 // =========================
@@ -65,7 +108,7 @@ function inicializarChat() {
         return;
     }
 
-    formulario.addEventListener("submit", (event) => {
+    formulario.addEventListener("submit", async (event) => {
         event.preventDefault();
 
         const contenido = input.value.trim();
@@ -74,13 +117,40 @@ function inicializarChat() {
             return;
         }
 
+        const boton = formulario.querySelector("button");
+
+        boton.disabled = true;
+
         agregarMensaje("usuario", contenido);
 
         renderizarMensajes(contenedor);
 
         input.value = "";
 
-        responderJoker(contenedor);
+        try {
+            mostrarEscribiendo(contenedor);
+
+            const respuesta = await consultarGemini();
+
+            quitarEscribiendo();
+
+            agregarMensaje("personaje", respuesta);
+
+            renderizarMensajes(contenedor);
+        } catch (error) {
+            quitarEscribiendo();
+
+            console.error(error);
+
+            agregarMensaje(
+                "personaje",
+                "Algo salió mal... intenta de nuevo."
+            );
+
+            renderizarMensajes(contenedor);
+        } finally {
+            boton.disabled = false;
+        }
     });
 }
 
