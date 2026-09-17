@@ -15,35 +15,23 @@
     <header>
         <h1>Joker AI Chat</h1>
         <p>Una conversación fuera de lo común.</p>
+
+        <nav>
+            <a href="/home" data-link>Home</a>
+            <a href="/chat" data-link>Chat</a>
+            <a href="/about" data-link>About</a>
+        </nav>
     </header>
 
-    <main>
-
-        <section id="chat">
-
-            <div class="mensaje personaje">
-                <p>¿Qué tenemos aquí... alguien quiere hablar conmigo?</p>
-            </div>
-
-            <div class="mensaje usuario">
-                <p>Hola, Joker.</p>
-            </div>
-
-        </section>
-
-        <form id="form-chat">
-
-            <input type="text" id="mensaje-input" placeholder="Escribe un mensaje..." autocomplete="off">
-
-            <button type="submit">Enviar</button>
-
-        </form>
-
+    <main id="app">
+        <!-- JavaScript renderiza las vistas acá -->
     </main>
 
     <footer>
         <p>Joker AI Chat</p>
     </footer>
+
+    <script type="module" src="./app.js"></script>
 
 </body>
 
