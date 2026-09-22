@@ -1,3 +1,5 @@
+import { transformarMensajes } from "./utils.js";
+
 // =========================
 // Historial del chat
 // =========================
@@ -79,10 +81,7 @@ async function consultarGemini() {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            messages: mensajes.map((mensaje) => ({
-                role: mensaje.remitente === "usuario" ? "user" : "model",
-                content: mensaje.contenido
-            }))
+            messages: transformarMensajes(mensajes)
         })
     });
 
