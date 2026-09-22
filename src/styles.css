@@ -54,6 +54,26 @@ header {
     display: flex;
     align-items: center;
     gap: 0.8rem;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.25s ease;
+}
+
+.brand:hover {
+    transform: translateY(-2px);
+}
+
+.brand:hover .brand-card {
+    transform: rotate(-6deg) scale(1.05);
+}
+
+.brand:hover .brand-text h1 {
+    letter-spacing: 0.12em;
+}
+
+.brand-card,
+.brand-text h1 {
+    transition: all 0.25s ease;
 }
 
 .brand-card {
