@@ -4,7 +4,20 @@ import { transformarMensajes } from "./utils.js";
 // Historial del chat
 // =========================
 
-const mensajes = [];
+let mensajes = JSON.parse(
+    sessionStorage.getItem("mensajes-joker")
+) || [];
+
+// =========================
+// Guardar historial
+// =========================
+
+function guardarMensajes() {
+    sessionStorage.setItem(
+        "mensajes-joker",
+        JSON.stringify(mensajes)
+    );
+}
 
 // =========================
 // Agregar mensaje
@@ -15,6 +28,8 @@ function agregarMensaje(remitente, contenido) {
         remitente,
         contenido
     });
+
+    guardarMensajes();
 }
 
 // =========================
@@ -29,9 +44,11 @@ function renderizarMensajes(contenedor) {
 
         div.classList.add("mensaje", mensaje.remitente);
 
-        div.innerHTML = `
-      <p>${mensaje.contenido}</p>
-    `;
+        const p = document.createElement("p");
+
+        p.textContent = mensaje.contenido;
+
+        div.appendChild(p);
 
         contenedor.appendChild(div);
     });
@@ -50,7 +67,11 @@ function mostrarEscribiendo(contenedor) {
     div.id = "escribiendo";
 
     div.innerHTML = `
-    <p>Joker está escribiendo...</p>
+    <p class="typing">
+      <span></span>
+      <span></span>
+      <span></span>
+    </p>
   `;
 
     contenedor.appendChild(div);
@@ -111,6 +132,9 @@ function inicializarChat() {
         return;
     }
 
+    // Mostrar historial guardado
+    renderizarMensajes(contenedor);
+
     formulario.addEventListener("submit", async (event) => {
         event.preventDefault();
 
@@ -146,7 +170,8 @@ function inicializarChat() {
 
             console.error(error);
 
-            let mensajeError = "Algo salió mal... intenta de nuevo.";
+            let mensajeError =
+                "Algo salió mal... intenta de nuevo.";
 
             if (error.status === 503) {
                 mensajeError =

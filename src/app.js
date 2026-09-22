@@ -7,25 +7,60 @@ const app = document.querySelector("#app");
 
 function renderHome() {
   app.innerHTML = `
-    <section>
-      <h2>Bienvenido al Joker AI Chat</h2>
-      <p>
-        ¿Te animás a tener una conversación con uno de los personajes
-        más impredecibles?
-      </p>
+    <section class="hero">
 
-      <button data-link href="/chat">
-        Comenzar a chatear
-      </button>
+      <div class="hero-makeup" aria-hidden="true">
+        <span class="maquillaje-ojo"></span>
+        <span class="maquillaje-sonrisa"></span>
+      </div>
+
+      <div class="hero-content">
+
+        <span class="hero-label">
+          AI CHARACTER CHAT
+        </span>
+
+        <h2>
+          Why so
+          <span>serious?</span>
+        </h2>
+
+        <p class="hero-description">
+          Entrá en una conversación impredecible con una versión
+          artificial del Joker.
+        </p>
+
+        <button data-link href="/chat" class="hero-button">
+          Comenzar a chatear
+          <span aria-hidden="true">→</span>
+        </button>
+
+      </div>
+
     </section>
   `;
 }
+
+
 
 function renderChat() {
   app.innerHTML = `
     <section class="chat-view">
 
-      <h2>Chat con Joker</h2>
+      <div class="chat-header">
+
+        <div class="chat-avatar">
+          J
+        </div>
+
+        <div>
+          <h2>Joker</h2>
+          <span class="chat-status">
+            ● ONLINE
+          </span>
+        </div>
+
+      </div>
 
       <section id="chat"></section>
 
@@ -34,7 +69,7 @@ function renderChat() {
         <input
           type="text"
           id="mensaje-input"
-          placeholder="Escribe un mensaje..."
+          placeholder="Decile algo al Joker..."
           autocomplete="off"
         >
 
@@ -52,16 +87,59 @@ function renderChat() {
 
 function renderAbout() {
   app.innerHTML = `
-    <section>
-      <h2>Sobre el proyecto</h2>
-      <p>
-        Joker AI Chat es una aplicación SPA que utiliza inteligencia
-        artificial para simular una conversación con el personaje.
+    <section class="about-view">
+
+      <span class="about-label">
+        THE PROJECT
+      </span>
+
+      <h2>
+        Behind the
+        <span>chaos.</span>
+      </h2>
+
+      <p class="about-description">
+        Joker AI Chat es una aplicación web desarrollada como una
+        experiencia de conversación con inteligencia artificial.
+        El proyecto combina una SPA, una API de Gemini y una interfaz
+        inspirada en la estética del Joker.
       </p>
 
-      <a href="/home" data-link>
-        Volver al inicio
+      <div class="about-grid">
+
+        <article class="about-card">
+          <span>01</span>
+          <h3>SPA</h3>
+          <p>
+            Navegación entre Home, Chat y About utilizando History API
+            sin recargar la página.
+          </p>
+        </article>
+
+        <article class="about-card">
+          <span>02</span>
+          <h3>AI</h3>
+          <p>
+            Gemini genera las respuestas manteniendo el contexto de
+            la conversación durante la sesión.
+          </p>
+        </article>
+
+        <article class="about-card">
+          <span>03</span>
+          <h3>SERVERLESS</h3>
+          <p>
+            La API key permanece protegida en el entorno de Vercel y
+            no se expone en el frontend.
+          </p>
+        </article>
+
+      </div>
+
+      <a href="/home" data-link class="about-button">
+        ← Volver al inicio
       </a>
+
     </section>
   `;
 }
